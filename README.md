@@ -33,7 +33,7 @@ Input: Instructor uploads rubric data into the extension.
 Parse: DOM script scans Gradescope for student answers.
 Process: Short answers are analyzed using predefined patterns or an NLP engine.
 Output: Grades are selected programmatically based on rubric rules.
-This setup would allow you to effectively parse and grade short answers while being scalable for future features. Let me know if you'd like more details about any specific component!
+This setup would allow you to effectively parse and grade short answers while being scalable for future features.
 
 
 
