@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import os
 import time
 
-load_dotenv("../.env")
+load_dotenv(".../.env")
 
 API_KEY = os.getenv("PINECONE_API_KEY")
 pc = Pinecone(api_key=API_KEY)
