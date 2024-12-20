@@ -36,7 +36,6 @@ pip-delete-this-directory.txt
 # Logs and output files
 *.log
 *.out
-*.txt
 *.csv
 *.json
 
