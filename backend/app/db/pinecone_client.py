@@ -63,7 +63,7 @@ class PineconeClient:
     
     def delete_namespace(self, user_id):
         """
-        Delets the entire namepsace associated with the user_id. All data associated with the user_id
+        Delets the entire namepsace associated with the `user_id`. All data associated with the `user_id`
         namepsace is removed.
 
         Args:
@@ -73,7 +73,7 @@ class PineconeClient:
     
     def delete_vectors(self, user_id, vector_ids):
         """
-        Deletes specific vectors associated with the user_id in the namespace.
+        Deletes specific vectors associated with the `user_id` in the namespace.
         Only the vectors with the provided IDs are removed, not the entire namespace.
 
         Args:
