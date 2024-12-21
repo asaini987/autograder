@@ -1,8 +1,6 @@
 from pydantic import BaseModel
+from fastapi import UploadFile
 
-class EmbeddingRequest(BaseModel):
-    text: str
-    """Text to embed."""
 
 class QueryRequest(BaseModel):
     query: str

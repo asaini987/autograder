@@ -1,7 +1,7 @@
 from pinecone import Pinecone, ServerlessSpec
 from dotenv import load_dotenv
-import os
-import time
+from os import getenv
+from time import sleep
 
 class PineconeClient:
     """
@@ -14,7 +14,7 @@ class PineconeClient:
         Initializes a Pinecone connection and creates the rubric embeddings index if it does not exist.
         """
         load_dotenv(".../.env")
-        API_KEY = os.getenv("PINECONE_API_KEY")
+        API_KEY = getenv("PINECONE_API_KEY")
         INDEX_NAME = "rubric_embeddings"
         self._pc = Pinecone(api_key=API_KEY)
 
@@ -29,8 +29,8 @@ class PineconeClient:
                 )
             )
             # Wait for index to be ready
-            while not self._pc.describe_index(INDEX_NAME).status['ready']:
-                time.sleep(1)
+            while not self._pc.describe_index(INDEX_NAME).status["ready"]:
+                sleep(1)
         
         self._index = self._pc.Index(INDEX_NAME)
     
@@ -81,3 +81,5 @@ class PineconeClient:
             vector_ids (list): A list of vector IDs to be deleted from the namespace.
         """
         self._index.delete(ids=vector_ids, namespace=user_id)
+
+pc = PineconeClient()

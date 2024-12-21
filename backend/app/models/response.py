@@ -8,10 +8,5 @@ class QueryResult(BaseModel):
     """A single retrieved document and its metadata."""
 
 class QueryResponse(BaseModel):
-    query: str
-    results: List[QueryResult]
+    response: str
     """Response for query requests, including matched documents."""
-
-class EmbeddingResponse(BaseModel):
-    embeddings: List[float]
-    """The vector representation of the input text."""
