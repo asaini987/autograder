@@ -1,13 +1,18 @@
 from sentence_transformers import SentenceTransformer
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_ollama.llms import OllamaLLM
+from langchain.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 from pypdf import PdfReader
 from io import BytesIO
+from ..db.pinecone_client import pc
+
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
 def extract_text_from_pdf(file_bytes):
     pdf_reader = PdfReader(BytesIO(file_bytes))
-    return "".join(page.extract_text() for page in pdf_reader.pages)
+    return "\n".join(page.extract_text() for page in pdf_reader.pages)
 
 def embed_doc(doc_text, doc_name):
     text_splitter = RecursiveCharacterTextSplitter(
@@ -20,7 +25,7 @@ def embed_doc(doc_text, doc_name):
     embeddings = []
     for idx, chunk in enumerate(chunks):
         embedding = model.encode(chunk)
-        embeddings.append({
+        embeddings.append({ # fix dictionary form to be comaptible with pinecone
             "embedding": embedding,
             "metadata": {
                 "chunk_index": idx,
@@ -30,3 +35,27 @@ def embed_doc(doc_text, doc_name):
         })
 
     return embeddings
+
+def retrieve_top_vectors(user_id, query):
+    embedding = model.encode(query)
+    return pc.query_data(user_id, embedding)
+
+def ask_llm(question, response, rubric):
+    prompt = PromptTemplate(
+        template="""You are an assistant for grading student responses to assignment questions.
+        Use the following information from the rubric to help you grade the student response. Tell
+        me how many points the student should receive. Follow this rubric exactly, do not deviate from it. 
+        Base your decision off of the rubric only. If you truly do not know, say you do not know. 
+        Use three sentences maximum and keep your answer concise. 
+        Here is the question, the student's response, and the rubric:
+        Question: {question}
+        Student's Response: {response}
+        Rubric Information: {rubric}""",   
+        input_variables=[question, response, rubric]
+    )
+    llm = OllamaLLM(model="llama3", temperature=0)
+    rag_chain = prompt | llm | StrOutputParser()
+    answer = rag_chain.invoke({"question": question, "response": response, "rubric": rubric})
+    return answer
+    # for chunks in llm.stream(prompt):
+    #     print(chunks, end="")

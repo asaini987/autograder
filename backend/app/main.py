@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from app.routes import embeddings
-from db.pinecone_client import PineconeClient
+from .routes import embeddings
+from .db.pinecone_client import PineconeClient
 
 app = FastAPI()
 app.include_router(embeddings.router, prefix="/api/embeddings")

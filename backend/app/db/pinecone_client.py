@@ -13,9 +13,9 @@ class PineconeClient:
         """
         Initializes a Pinecone connection and creates the rubric embeddings index if it does not exist.
         """
-        load_dotenv(".../.env")
+        load_dotenv("../../.env")
         API_KEY = getenv("PINECONE_API_KEY")
-        INDEX_NAME = "rubric_embeddings"
+        INDEX_NAME = "rubric-embeddings"
         self._pc = Pinecone(api_key=API_KEY)
 
         if INDEX_NAME not in self._pc.list_indexes().names():
