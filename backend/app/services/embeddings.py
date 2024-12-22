@@ -40,7 +40,7 @@ def retrieve_top_vectors(user_id, query):
     embedding = model.encode(query)
     return pc.query_data(user_id, embedding)
 
-def ask_llm(question, response, rubric):
+def ask_llm(question, response, rubric): # tell llm we are going to give u the question number
     prompt = PromptTemplate(
         template="""You are an assistant for grading student responses to assignment questions.
         Use the following information from the rubric to help you grade the student response. Tell
@@ -50,12 +50,12 @@ def ask_llm(question, response, rubric):
         Here is the question, the student's response, and the rubric:
         Question: {question}
         Student's Response: {response}
-        Rubric Information: {rubric}""",   
+        Rubric Information: {rubric}""",
         input_variables=[question, response, rubric]
     )
-    llm = OllamaLLM(model="llama3", temperature=0)
+    llm = OllamaLLM(model="llama3", temperature=0) # change to one instance
     rag_chain = prompt | llm | StrOutputParser()
     answer = rag_chain.invoke({"question": question, "response": response, "rubric": rubric})
     return answer
-    # for chunks in llm.stream(prompt):
+    # for chunks in llm.stream(question):
     #     print(chunks, end="")

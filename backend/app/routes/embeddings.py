@@ -16,7 +16,7 @@ async def upload_and_store_doc(request: EmbedRubricRequest, file: UploadFile = F
 
 @router.post("/grade-answer")
 async def grade_answer(request: QueryRequest):
-    query_response = retrieve_top_vectors(request.user_id, request.question + "\n" + request.student_response)
+    query_response = retrieve_top_vectors(request.user_id, request.question)
     top_vectors = query_response["matches"]
     texts = [vector["metadata"]["text"] for vector in top_vectors]
     context = "\n".join(texts)
