@@ -48,7 +48,6 @@ pydantic==2.10.4
 pydantic_core==2.27.2
 Pygments==2.18.0
 PyMuPDF==1.25.1
-PyPDF2==3.0.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 python-multipart==0.0.20
