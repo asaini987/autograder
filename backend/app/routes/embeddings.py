@@ -22,3 +22,13 @@ async def grade_answer(request: QueryRequest):
     context = "\n".join(texts)
     answer = ask_llm(request.question, request.student_response, context)
     return {"response" : answer}
+
+# question = "What are the 3 pillars of Object Oriented Programming?"
+# answer = "The 3 pillars are encapsulation, recursion , and threading."
+# query_response = retrieve_top_vectors("12345test", "What are the 3 pillars of Object Oriented Programming?")
+# top_vectors = query_response["matches"]
+# texts = [vector["metadata"]["text"] for vector in top_vectors]
+# context = "\n".join(texts)
+# print(context)
+# answer = ask_llm(question, answer, context)
+# print(answer)

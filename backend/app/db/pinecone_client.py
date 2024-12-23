@@ -59,7 +59,7 @@ class PineconeClient:
             QueryResponse object which contains the list of the top 5 closest vectors as ScoredVector objects,
             and namespace name.
         """
-        return self._index.query(namespace=user_id, vector=query_vector, top_k=5)
+        return self._index.query(namespace=user_id, vector=query_vector, top_k=5, include_metadata=True, include_values=True)
     
     def delete_namespace(self, user_id):
         """
